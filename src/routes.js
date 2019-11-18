@@ -10,7 +10,7 @@ routes.post('/products', ProductController.store);
 routes.put('/products/:id', ProductController.update);
 routes.delete('/products/:id', ProductController.destroy);
 
-// Rotas Calculo
+// Rota Calculo
 routes.get('/products/tarifa-normal/:id/:tempo?/:plano?', ProductController.calculo);
 
 

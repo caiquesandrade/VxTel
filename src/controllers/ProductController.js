@@ -39,47 +39,21 @@ module.exports = {
         const product = await Product.findById(req.params.id);
         const tarifa_normal = product['valor'];
 
-        var duracao = req.params.tempo;
-        var plano = req.params.plano;
+        var duracao = parseFloat(req.params.tempo);
+        var plano = parseFloat(req.params.plano);
 
 
         var custo_tarifa_normal = duracao * tarifa_normal;
 
-        if (plano == 30) 
+        if (duracao > plano) 
         {
-            if (duracao > 30) 
-            {
-                var minutos_excedentes = duracao - 30;
-                var minutos_excedentes_acrescimo = minutos_excedentes + (minutos_excedentes * 0.1);
-                var custo_tarifa_fale_mais = minutos_excedentes_acrescimo * tarifa_normal;
+            var minutos_excedentes = duracao - plano;
+            var minutos_excedentes_acrescimo = minutos_excedentes + (minutos_excedentes * 0.1);
+            var custo_tarifa_fale_mais = minutos_excedentes_acrescimo * tarifa_normal;
 
-            } else {
-                var custo_tarifa_fale_mais = 'sem custo';
-        }
-            
-        } else if (plano == 60) {
+        } else if (duracao <= plano) {
 
-            if (duracao > 60) 
-            {
-                var minutos_excedentes = duracao - 60;
-                var minutos_excedentes_acrescimo = minutos_excedentes + (minutos_excedentes * 0.1);
-                var custo_tarifa_fale_mais = minutos_excedentes_acrescimo * tarifa_normal;
-
-            } else {
-                var custo_tarifa_fale_mais = 'sem custo';
-        }
-
-        } else if (plano == 120) {
-
-            if (duracao > 120) 
-            {
-                var minutos_excedentes = duracao - 120;
-                var minutos_excedentes_acrescimo = minutos_excedentes + (minutos_excedentes * 0.1);
-                var custo_tarifa_fale_mais = minutos_excedentes_acrescimo * tarifa_normal;
-
-            } else {
-                var custo_tarifa_fale_mais = 'sem custo';
-        }
+            var custo_tarifa_fale_mais = 'sem custo';
 
         } else {
             return res.send('Nenhum Plano foi selecionado');
